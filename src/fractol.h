@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 18:01:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/01/31 21:48:58 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/02/01 21:46:57 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 #define FRACTOL_H
 # include <mlx.h>
 # include "libft.h"
-#include <stdio.h>
+# include <stdio.h>
+# include <math.h>
+# include <pthread.h>
 
 # define MANDELBROT -1
 # define JULIA 1
-# define WIDTH 700
-# define HEIGHT 700
-# define MAX 100
+# define WIDTH 300
+# define HEIGHT 300
+# define MAX 50
 # define GREY 16579836
 # define RED 13395558
 # define GREEN 13421670
@@ -43,6 +45,7 @@ typedef struct	s_params
 	int			x;
 	int			y;
 	double		zoom;
+	int			max;
 }				t_params;
 
 int		ft_key_press(int keycode);

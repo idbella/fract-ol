@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 18:02:32 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/01/31 21:44:34 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/02/01 21:47:09 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_params	*ft_getter(t_params *p)
 void	ft_init(t_params *params)
 {
 	params->zoom = 1;
+	params->max = MAX;
 	params->mouse_down = 0;
 	params->start_x = -2;
 	params->start_y = -2;

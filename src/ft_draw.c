@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 21:31:14 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/01/31 21:43:56 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/02/01 21:50:14 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	mandelbrot(t_params *p, int x, int y)
 	z.a = map(x, p->start_x, p->zoom);
 	z.b = map(y, p->start_y, p->zoom);
 	i = 0;
-	while (i < MAX)
+	while (i < p->max)
 	{
 		tmp = z.a * z.a - z.b * z.b + c.a;
 		z.b = 2 * z.a * z.b + c.b;
@@ -40,25 +40,46 @@ void	mandelbrot(t_params *p, int x, int y)
 			break ;
 		i++;
 	}
-	if (i == MAX)
+	if (i == p->max)
 		mlx_pixel_put(p->mlx_ptr, p->win_ptr, x, y, GREEN);
+	// else
+	// 	mlx_pixel_put(p->mlx_ptr, p->win_ptr, x, y, GREY);
+}
+
+void	*ft_thr(void *ptr)
+{
+	int x;
+	int y;
+	t_params	*p;
+
+	p = ft_getter(0);
+	y = *(int *)ptr;
+	x = 0;
+	while (x < WIDTH)
+	{
+		mandelbrot(p, x, y);
+		x++;
+	}
+	return (NULL);
 }
 
 void	draw(t_params *p)
 {
-	int x;
 	int y;
+	//pthread_t th[HEIGHT];
 
 	mlx_clear_window(p->mlx_ptr, p->win_ptr);
 	y = 0;
 	while (y < HEIGHT)
 	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			mandelbrot(p, x, y);
-			x++;
-		}
+		//pthread_create(&th[y], NULL, ft_thr, &y);
+		ft_thr(&y);
 		y++;
 	}
+	//y = 0;
+	// while (y < HEIGHT)
+	// {
+	// 	pthread_join(th[y], NULL);
+	// 	y++;
+	// }
 }

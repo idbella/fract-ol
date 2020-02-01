@@ -6,7 +6,7 @@
 /*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 21:32:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/01/31 21:52:23 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/02/01 21:49:22 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,21 @@ int		ft_key_press(int keycode)
 {
 	t_params *p;
 
+	printf("key = %d\n", keycode);
 	p = ft_getter(0);
 	if (keycode == 49)
 	{
 		p->fractal *= -1;
+		draw(p);
+	}
+	if (keycode == 69)
+	{
+		p->max++;
+		draw(p);
+	}
+	if (keycode == 78)
+	{
+		p->max--;
 		draw(p);
 	}
 	return (0);
@@ -70,9 +81,8 @@ int		ft_mouse_move(int x, int y)
 	{
 		dx = p->x - x;
 		dy = p->y - y;
-
-		p->start_x -= map(dx, p->start_x, p->zoom) + p->start_x;
-		p->start_y -= map(dy, p->start_y, p->zoom) + p->start_y;
+		p->start_x += map(dx, p->start_x, p->zoom) - p->start_x;
+		p->start_y += map(dy, p->start_y, p->zoom) - p->start_y;
 		draw(p);
 		p->x = x;
 		p->y = y;
