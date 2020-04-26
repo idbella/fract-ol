@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <idbellasaid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 18:01:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/02/01 21:46:57 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/04/26 14:16:13 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 # include <math.h>
 # include <pthread.h>
 
-# define MANDELBROT -1
+# define MANDELBROT 0
 # define JULIA 1
-# define WIDTH 300
-# define HEIGHT 300
-# define MAX 50
+# define BURNING 2
+# define WIDTH 600
+# define HEIGHT 400
+# define MAX 20
 # define GREY 16579836
 # define RED 13395558
 # define GREEN 13421670
@@ -46,6 +47,10 @@ typedef struct	s_params
 	int			y;
 	double		zoom;
 	int			max;
+	int			step;
+	int			stop;
+	t_complex	z;
+	t_complex	c;
 }				t_params;
 
 int		ft_key_press(int keycode);

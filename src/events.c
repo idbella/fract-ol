@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sid-bell <idbellasaid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 21:32:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/02/01 21:49:22 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/04/25 16:14:27 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,26 @@ int		ft_key_press(int keycode)
 {
 	t_params *p;
 
-	printf("key = %d\n", keycode);
 	p = ft_getter(0);
-	if (keycode == 49)
+	if (keycode == 32)
 	{
-		p->fractal *= -1;
+		if (++p->fractal > BURNING)
+			p->fractal = MANDELBROT;
 		draw(p);
 	}
-	if (keycode == 69)
+	if (keycode == 61)
 	{
 		p->max++;
 		draw(p);
 	}
-	if (keycode == 78)
+	if (keycode == 45)
 	{
 		p->max--;
 		draw(p);
+	}
+	if (keycode == 115)
+	{
+		p->stop *= -1;
 	}
 	return (0);
 }
@@ -43,6 +47,7 @@ int		ft_mouse_press(int keycode, int x, int y)
 	params = ft_getter(NULL);
 	if (x <= 0 || y <= 0)
 		return (0);
+	params->step = 2;
 	if (keycode == 1)
 	{
 		params->x = x;
@@ -67,6 +72,8 @@ int		ft_mouse_release(int button)
 	params = ft_getter(NULL);
 	if (button == 1)
 		params->mouse_down = 0;
+	params->step = 1;
+	draw(params);
 	return (0);
 }
 
@@ -87,7 +94,7 @@ int		ft_mouse_move(int x, int y)
 		p->x = x;
 		p->y = y;
 	}
-	else if (p->fractal == JULIA)
+	else if (p->fractal == JULIA && p->stop < 0)
 	{
 		p->julia.a = map(x, p->start_x, p->zoom);
 		p->julia.b = map(y, p->start_y, p->zoom);

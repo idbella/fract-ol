@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sid-bell <sid-bell@student.42.fr>          +#+  +:+       +#+         #
+#    By: sid-bell <idbellasaid@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/01 06:02:07 by sid-bell          #+#    #+#              #
-#    Updated: 2020/01/31 21:33:47 by sid-bell         ###   ########.fr        #
+#    Updated: 2020/04/26 14:14:20 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME=fractol
 
 FLAGS= -g -Wall -Wextra -Werror 
 
-LIBMLX= -L /usr/local -lmlx -framework OpenGl -framework AppKit
+LIBMLX= -L/usr/X11/lib /usr/X11/lib/libmlx.a -lXext -lX11 -lm
 
 LIBFT= src/libft/libft.a
 
@@ -33,7 +33,7 @@ CC=gcc
 all: $(LIBFT)  $(NAME) 
 
 $(NAME): $(LIBFT) $(HINC) $(OBJ)
-	gcc -I /usr/local/include $(LIBFT) $(LIBMLX) $(INC) $(FLAGS) $(OBJ) -o $(NAME)
+	gcc $(OBJ) -o $(NAME) src/libft/libft.a -lm -L/usr/X11/lib /usr/X11/lib/libmlx.a -lXext -lX11 -lpthread
 
 $(LIBFT):
 	make -C src/libft
