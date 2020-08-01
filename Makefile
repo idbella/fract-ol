@@ -3,18 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sid-bell <idbellasaid@gmail.com>           +#+  +:+       +#+         #
+#    By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/01 06:02:07 by sid-bell          #+#    #+#              #
-#    Updated: 2020/04/26 14:14:20 by sid-bell         ###   ########.fr        #
+#    Updated: 2020/08/01 03:20:10 by sid-bell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=fractol
 
-FLAGS= -g -Wall -Wextra -Werror 
+FLAGS= -Wall -Wextra -Werror 
 
-LIBMLX= -L/usr/X11/lib /usr/X11/lib/libmlx.a -lXext -lX11 -lm
+LIBMLX= src/minilibx/libmlx.a -lXext -lX11 -lm
 
 LIBFT= src/libft/libft.a
 
@@ -22,7 +22,9 @@ HEADER= fdf.h
 
 HINC = src/fractol.h
 
-INC= -I/usr/local/include -Isrc/includes -Isrc/libft
+MLX=src/minilibx/libmlx.a
+
+INC= -I/usr/local/include -Isrc/includes -Isrc/libft -Isrc/minilibx
 
 OBJ=src/main.o src/events.o src/ft_draw.o
 
@@ -30,16 +32,18 @@ CFLAGS = $(INC) $(FLAGS)
 
 CC=gcc
 
-all: $(LIBFT)  $(NAME) 
+all: $(MLX) $(LIBFT)  $(NAME) 
 
 $(NAME): $(LIBFT) $(HINC) $(OBJ)
-	gcc $(OBJ) -o $(NAME) src/libft/libft.a -lm -L/usr/X11/lib /usr/X11/lib/libmlx.a -lXext -lX11 -lpthread
+	gcc $(OBJ) -o $(NAME) src/libft/libft.a $(LIBMLX) -lXext -lX11
 
 $(LIBFT):
 	make -C src/libft
-
+$(MLX):
+	make -C src/minilibx
 clean:
 	make -C src/libft clean
+	make -C src/minilibx clean
 	rm -rf $(OBJ)
 
 fclean: clean

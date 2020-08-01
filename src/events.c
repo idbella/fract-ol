@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <idbellasaid@gmail.com>           +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 21:32:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/04/25 16:14:27 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/08/01 02:03:37 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ int		ft_mouse_press(int keycode, int x, int y)
 	params = ft_getter(NULL);
 	if (x <= 0 || y <= 0)
 		return (0);
-	params->step = 2;
-	if (keycode == 1)
+	
+	if (keycode == 1 && x < WIDTH - 100)
 	{
+		params->step = 2;
 		params->x = x;
 		params->y = y;
 		params->mouse_down = 1;
@@ -62,6 +63,19 @@ int		ft_mouse_press(int keycode, int x, int y)
 			params->zoom *= 0.96;
 		draw(params);
 	}
+	t_list *lst;
+	t_button *btn;
+	lst = ft_getter(0)->buttons;
+	while (lst)
+	{
+		btn = lst->content;
+		if ((x > btn->x && x < btn->x + btn->width) &&
+			(y > btn->y && y < btn->y + btn->height))
+		{
+			btn->callback(btn);
+		}
+		lst = lst->next;
+	}
 	return (0);
 }
 
@@ -70,10 +84,12 @@ int		ft_mouse_release(int button)
 	t_params *params;
 
 	params = ft_getter(NULL);
-	if (button == 1)
+	if (button == 1 && params->mouse_down)
+	{
 		params->mouse_down = 0;
-	params->step = 1;
-	draw(params);
+		params->step = 1;
+		draw(params);
+	}
 	return (0);
 }
 
@@ -84,6 +100,7 @@ int		ft_mouse_move(int x, int y)
 	int			dy;
 
 	p = ft_getter(NULL);
+	//printf("x = %f\n", map(x, p->start_x, p->zoom));
 	if (p->mouse_down)
 	{
 		dx = p->x - x;
@@ -96,9 +113,34 @@ int		ft_mouse_move(int x, int y)
 	}
 	else if (p->fractal == JULIA && p->stop < 0)
 	{
-		p->julia.a = map(x, p->start_x, p->zoom);
-		p->julia.b = map(y, p->start_y, p->zoom);
-		draw(p);
+		if (x < WIDTH - 100)
+		{
+			p->julia.a = map(x, p->start_x, p->zoom);
+			p->julia.b = map(y, p->start_y, p->zoom);
+			draw(p);
+		}
 	}
+	t_list *lst;
+	t_button *btn;
+	lst = ft_getter(0)->buttons;
+	char d = 0;
+	while (lst)
+	{
+		btn = lst->content;
+		if ((x > btn->x && x < btn->x + btn->width) &&
+			(y > btn->y && y < btn->y + btn->height))
+		{
+			btn->highlighted = 1;
+			d = 1;
+		}
+		else if (btn->highlighted)
+		{
+			btn->highlighted = 0;
+			d = 1;
+		}
+		lst = lst->next;
+	}
+	if (d)
+		ft_buttons();
 	return (0);
 }

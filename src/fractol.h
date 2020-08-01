@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sid-bell <idbellasaid@gmail.com>           +#+  +:+       +#+        */
+/*   By: sid-bell <sid-bell@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 18:01:39 by sid-bell          #+#    #+#             */
-/*   Updated: 2020/04/26 14:16:13 by sid-bell         ###   ########.fr       */
+/*   Updated: 2020/08/01 03:29:44 by sid-bell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 #define FRACTOL_H
-# include <mlx.h>
+# include "mlx.h"
 # include "libft.h"
 # include <stdio.h>
 # include <math.h>
-# include <pthread.h>
 
 # define MANDELBROT 0
 # define JULIA 1
@@ -51,8 +50,25 @@ typedef struct	s_params
 	int			stop;
 	t_complex	z;
 	t_complex	c;
+	t_list		*buttons;
 }				t_params;
+typedef void	t_func(void *btn);
+typedef struct	s_button
+{
+	int		x;
+	int		y;
+	int		width;
+	int		height;
+	char	*caption;
+	t_func	*callback;
+	int		color;
+	int		textcolor;
+	int		highlightcolor;
+	int		highlighted;
+	int		value;
+}				t_button;
 
+void	ft_buttons();
 int		ft_key_press(int keycode);
 void	draw(t_params *p);
 int		ft_mouse_press(int keycode, int x, int y);
